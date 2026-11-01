@@ -5,24 +5,54 @@ on:
   push:
     branches: [main]
     paths:
-      - "prediabetes_explainer.py"
+      - "*.py"
+      - "images/**"
+      - "music.mp3"
       - ".github/workflows/manim.yml"
 
 jobs:
   render:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install system packages
+
+      - name: System packages
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev
-      - run: pip install manim
-      - run: manim -qh prediabetes_explainer.py PrediabetesExplainer
+
+      - name: Install Manim
+        run: pip install manim
+
+      - name: Install voice tools (separate environment)
+        continue-on-error: true
+        run: |
+          python -m venv audio_env
+          audio_env/bin/pip install kokoro-onnx soundfile scipy numpy
+
+      - name: Natural voice
+        continue-on-error: true
+        run: audio_env/bin/python make_voice.py
+
+      - name: Music and mix
+        continue-on-error: true
+        run: audio_env/bin/python make_mix.py
+
+      - name: Render video
+        run: manim -qh prediabetes_explainer.py PrediabetesExplainer
+
       - uses: actions/upload-artifact@v4
         with:
           name: prediabetes-manim-video
           path: media/videos/prediabetes_explainer/1080p60/PrediabetesExplainer.mp4
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audio-mix
+          path: mix.wav
+          if-no-files-found: ignore
