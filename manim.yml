@@ -13,7 +13,7 @@ on:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,6 +27,10 @@ jobs:
 
       - name: Install Manim
         run: pip install manim
+
+      - name: Download illustrations
+        continue-on-error: true
+        run: python get_assets.py
 
       - name: Install voice tools (separate environment)
         continue-on-error: true
@@ -43,12 +47,12 @@ jobs:
         run: audio_env/bin/python make_mix.py
 
       - name: Render video
-        run: manim -qh prediabetes_explainer.py PrediabetesExplainer
+        run: manim -r 1920,1080 --fps 30 prediabetes_explainer.py PrediabetesExplainer
 
       - uses: actions/upload-artifact@v4
         with:
           name: prediabetes-manim-video
-          path: media/videos/prediabetes_explainer/1080p60/PrediabetesExplainer.mp4
+          path: media/videos/prediabetes_explainer/*/PrediabetesExplainer.mp4
 
       - uses: actions/upload-artifact@v4
         if: always()
