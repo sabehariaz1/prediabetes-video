@@ -1,0 +1,50 @@
+name: Render Prediabetes Explainer Video
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install system libraries and fonts (Chrome + DejaVu Serif)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            fonts-dejavu-core fonts-dejavu-extra \
+            libnss3 libdbus-1-3 libatk1.0-0 libasound2t64 libxrandr2 \
+            libxkbcommon-dev libxfixes3 libxcomposite1 libxdamage1 \
+            libgbm-dev libcups2 libatk-bridge2.0-0 libpango-1.0-0 libcairo2
+          fc-cache -f
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Render video (3,600 frames, 30 fps, 1920x1080)
+        run: npm run build
+
+      - name: Verify duration
+        run: |
+          sudo apt-get install -y ffmpeg
+          ffprobe -v error -show_entries format=duration -of default=nw=1 out/PrediabetesExplainer.mp4
+
+      - name: Upload MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: PrediabetesExplainer
+          path: out/PrediabetesExplainer.mp4
+          retention-days: 14

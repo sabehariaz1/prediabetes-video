@@ -1,16 +1,18 @@
 {
-  "name": "prediabetes-community-explainer",
+  "name": "prediabetes-explainer",
   "version": "2.0.0",
   "private": true,
+  "description": "Prediabetes explainer video (2:00, 1920x1080, 30 fps) built with Remotion",
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render src/index.ts PrediabetesExplainer out/prediabetes-explainer-2min.mp4 --codec=h264 --crf=18"
+    "build": "remotion render src/index.ts PrediabetesExplainer out/PrediabetesExplainer.mp4 --codec=h264 --crf=18",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.218",
+    "@remotion/cli": "4.0.544",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "remotion": "4.0.218"
+    "remotion": "4.0.544"
   },
   "devDependencies": {
     "@types/react": "18.3.12",

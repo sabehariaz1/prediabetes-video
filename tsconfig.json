@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2018",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2020", "dom"],
     "jsx": "react-jsx",
     "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
