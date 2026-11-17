@@ -20,10 +20,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: System packages
+      - name: System packages and fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev
+          sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev fonts-noto-core fonts-open-sans
+          fc-cache -f
+          fc-list | grep -i "Noto Sans" | head -3
 
       - name: Install Manim
         run: pip install manim
@@ -48,6 +50,9 @@ jobs:
 
       - name: Render video
         run: manim -r 1920,1080 --fps 30 prediabetes_explainer.py PrediabetesExplainer
+
+      - name: Check final length
+        run: ffprobe -v error -show_entries format=duration -of default=nw=1 media/videos/prediabetes_explainer/*/PrediabetesExplainer.mp4
 
       - uses: actions/upload-artifact@v4
         with:
