@@ -1,19 +1,17 @@
 {
-  "name": "prediabetes-video",
+  "name": "prediabetes-explainer",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
-    "start": "remotion studio src/index.ts",
-    "build": "remotion render src/index.ts Prediabetes out/prediabetes.mp4 --crf=16"
+    "build": "remotion render src/index.ts PrediabetesExplainer out/video.mp4"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.200",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "remotion": "4.0.200"
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0"
   },
   "devDependencies": {
-    "@types/react": "18.2.48",
-    "typescript": "5.3.3"
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
   }
 }
