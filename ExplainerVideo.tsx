@@ -1,184 +1,50 @@
 import React from 'react';
-import {
-  AbsoluteFill,
-  Sequence,
-  useCurrentFrame,
-  useVideoConfig,
-  interpolate,
-  spring,
-} from 'remotion';
-
-const SceneContainer: React.FC<{
-  children: React.ReactNode;
-  bgColor: string;
-}> = ({ children, bgColor }) => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 15], [0, 1], {
-    extrapolateRight: 'clamp',
-  });
-
-  return (
-    <AbsoluteFill
-      style={{
-        backgroundColor: bgColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 80,
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        opacity,
-      }}
-    >
-      {children}
-    </AbsoluteFill>
-  );
-};
+import { AbsoluteFill, Sequence } from 'remotion';
+import { PALETTE } from './theme';
+import { Scene1Hook } from './scenes/Scene1Hook';
+import { Scene2WhatIsIt } from './scenes/Scene2WhatIsIt';
+import { Scene3InsideBody } from './scenes/Scene3InsideBody';
+import { Scene4RiskFactors } from './scenes/Scene4RiskFactors';
+import { Scene5HowToFindOut } from './scenes/Scene5HowToFindOut';
+import { Scene6GoodNews } from './scenes/Scene6GoodNews';
+import { Scene7Closing } from './scenes/Scene7Closing';
 
 export const ExplainerVideo: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const scale = spring({
-    frame,
-    fps,
-    config: { damping: 12 },
-  });
-
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0F172A' }}>
-      {/* SCENE 1: Hook & Definition (0s - 5s) */}
-      <Sequence from={0} durationInFrames={150}>
-        <SceneContainer bgColor="#0F172A">
-          <div style={{ textAlign: 'center', transform: `scale(${scale})` }}>
-            <span
-              style={{
-                backgroundColor: '#F59E0B',
-                color: '#0F172A',
-                padding: '10px 24px',
-                borderRadius: 50,
-                fontSize: 28,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: 2,
-              }}
-            >
-              Health Alert
-            </span>
-            <h1
-              style={{
-                color: '#F8FAFC',
-                fontSize: 84,
-                marginTop: 30,
-                marginBottom: 20,
-              }}
-            >
-              What is Prediabetes?
-            </h1>
-            <p
-              style={{
-                color: '#94A3B8',
-                fontSize: 40,
-                maxWidth: 1100,
-                lineHeight: 1.4,
-              }}
-            >
-              Blood sugar levels are higher than normal, but not yet high enough
-              to be diagnosed as Type 2 diabetes.
-            </p>
-          </div>
-        </SceneContainer>
+    <AbsoluteFill style={{ backgroundColor: PALETTE.bg }}>
+      {/* 0:00 - 0:16 (480 frames): Hook & Global Prevalence */}
+      <Sequence from={0} durationInFrames={480}>
+        <Scene1Hook />
       </Sequence>
 
-      {/* SCENE 2: Diagnostic Numbers (5s - 10s) */}
-      <Sequence from={150} durationInFrames={150}>
-        <SceneContainer bgColor="#1E293B">
-          <div style={{ textAlign: 'center', width: '100%' }}>
-            <h2 style={{ color: '#38BDF8', fontSize: 64, marginBottom: 50 }}>
-              Know Your Numbers
-            </h2>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 40,
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: '#0F172A',
-                  padding: 40,
-                  borderRadius: 24,
-                  width: 480,
-                  border: '2px solid #38BDF8',
-                }}
-              >
-                <div style={{ color: '#94A3B8', fontSize: 30 }}>HbA1c Test</div>
-                <div
-                  style={{
-                    color: '#F59E0B',
-                    fontSize: 72,
-                    fontWeight: 800,
-                    margin: '15px 0',
-                  }}
-                >
-                  5.7% – 6.4%
-                </div>
-                <div style={{ color: '#CBD5E1', fontSize: 26 }}>
-                  3-Month Average Blood Sugar
-                </div>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: '#0F172A',
-                  padding: 40,
-                  borderRadius: 24,
-                  width: 480,
-                  border: '2px solid #38BDF8',
-                }}
-              >
-                <div style={{ color: '#94A3B8', fontSize: 30 }}>
-                  Fasting Glucose
-                </div>
-                <div
-                  style={{
-                    color: '#F59E0B',
-                    fontSize: 72,
-                    fontWeight: 800,
-                    margin: '15px 0',
-                  }}
-                >
-                  100 – 125
-                </div>
-                <div style={{ color: '#CBD5E1', fontSize: 26 }}>
-                  mg/dL After Overnight Fast
-                </div>
-              </div>
-            </div>
-          </div>
-        </SceneContainer>
+      {/* 0:16 - 0:32 (480 frames): What Is Prediabetes & A1C Gauge */}
+      <Sequence from={480} durationInFrames={480}>
+        <Scene2WhatIsIt />
       </Sequence>
 
-      {/* SCENE 3: Reversibility & Action (10s - 15s) */}
-      <Sequence from={300} durationInFrames={150}>
-        <SceneContainer bgColor="#064E3B">
-          <div style={{ textAlign: 'center' }}>
-            <h2 style={{ color: '#6EE7B7', fontSize: 76, marginBottom: 30 }}>
-              The Good News: It’s Reversible
-            </h2>
-            <p
-              style={{
-                color: '#ECFDF5',
-                fontSize: 42,
-                maxWidth: 1150,
-                lineHeight: 1.5,
-              }}
-            >
-              Losing just <strong>5% to 7%</strong> of body weight and getting{' '}
-              <strong>150 minutes</strong> of brisk walking per week can cut
-              your risk of Type 2 diabetes by up to <strong>58%</strong>.
-            </p>
-          </div>
-        </SceneContainer>
+      {/* 0:32 - 0:48 (480 frames): What Happens Inside the Body */}
+      <Sequence from={960} durationInFrames={480}>
+        <Scene3InsideBody />
+      </Sequence>
+
+      {/* 0:48 - 1:10 (660 frames): Combined Risk Factors */}
+      <Sequence from={1440} durationInFrames={660}>
+        <Scene4RiskFactors />
+      </Sequence>
+
+      {/* 1:10 - 1:30 (600 frames): How Do You Find Out? (Fixed Layout + Ranges) */}
+      <Sequence from={2100} durationInFrames={600}>
+        <Scene5HowToFindOut />
+      </Sequence>
+
+      {/* 1:30 - 1:45 (450 frames): The Good News (58% Reduction) */}
+      <Sequence from={2700} durationInFrames={450}>
+        <Scene6GoodNews />
+      </Sequence>
+
+      {/* 1:45 - 2:00 (450 frames): Take Action Today + Purpose & References */}
+      <Sequence from={3150} durationInFrames={450}>
+        <Scene7Closing />
       </Sequence>
     </AbsoluteFill>
   );

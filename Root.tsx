@@ -1,14 +1,17 @@
-import React from "react";
-import {Composition} from "remotion";
-import {Video} from "./Video";
+import React from 'react';
+import { Composition } from 'remotion';
+import { ExplainerVideo } from './ExplainerVideo';
+import { VIDEO_CONFIG } from './theme';
 
-export const RemotionRoot: React.FC = () => (
-  <Composition
-    id="Prediabetes"
-    component={Video}
-    durationInFrames={600}
-    fps={30}
-    width={1920}
-    height={1080}
-  />
-);
+export const RemotionRoot: React.FC = () => {
+  return (
+    <Composition
+      id="PrediabetesExplainer"
+      component={ExplainerVideo}
+      durationInFrames={VIDEO_CONFIG.totalFrames}
+      fps={VIDEO_CONFIG.fps}
+      width={VIDEO_CONFIG.width}
+      height={VIDEO_CONFIG.height}
+    />
+  );
+};
