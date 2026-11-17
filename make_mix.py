@@ -11,7 +11,7 @@ from story import build
 
 SR = 44100
 scenes, total = build()
-N = int((total + 1.0) * SR)
+N = int(total * SR)
 
 
 def resample(x, sr):
@@ -40,6 +40,10 @@ for sc in scenes:
         if x.ndim > 1:
             x = x.mean(axis=1)
         x = resample(x, sr)
+        cap = int((ln["win"] + 0.1) * SR)          # never run into the next sentence
+        if len(x) > cap:
+            x = x[:cap].copy()
+            x[-int(0.03 * SR):] *= np.linspace(1, 0, int(0.03 * SR))
         s = int(ln["start"] * SR)
         e = min(N, s + len(x))
         if s < N:

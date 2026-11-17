@@ -145,9 +145,9 @@ def office_bg():
 
 
 # ---------------------------------------------------------------- small building blocks
-def pill(text, color, size=30, tc=WHITE, maxw=None):
+def pill(text, color, size=30, tc=WHITE, maxw=None, pad=0.8):
     t = txt(text, size, tc, True, maxw=maxw)
-    b = RoundedRectangle(corner_radius=0.3, width=t.width + 0.8, height=t.height + 0.4, fill_color=color,
+    b = RoundedRectangle(corner_radius=0.3, width=t.width + pad, height=t.height + 0.4, fill_color=color,
                          fill_opacity=1, stroke_color=WHITE, stroke_width=4)
     t.move_to(b)
     return VGroup(b, t)
@@ -163,14 +163,18 @@ def speech(text, tc=NAVY, size=26, color=WHITE):
     return VGroup(b, tri, t)
 
 
-def bubble(sprite, label, color, r=1.2, eh=1.4, lsize=26, badge=None):
+def bubble(sprite, label, color, r=1.2, eh=1.4, lsize=26, badge=None, sub=None, ssize=20):
     c = Circle(radius=r, fill_color=color, fill_opacity=1, stroke_color=WHITE, stroke_width=8)
     sprite.scale_to_fit_height(eh)
     if sprite.width > 1.55 * r:
         sprite.scale_to_fit_width(1.55 * r)
     sprite.move_to(c)
-    lab = pill(label, NAVY, lsize, maxw=2 * r + 0.9).next_to(c, DOWN, buff=0.15)
+    lab = pill(label, NAVY, lsize, pad=0.5).next_to(c, DOWN, buff=0.15)
     parts = [c, sprite, lab]
+    if sub:
+        st = txt(sub, ssize, NAVY, True, maxw=3.6).next_to(lab, DOWN, buff=0.12)
+        st.set_stroke(WHITE, 8, background=True)
+        parts.append(st)
     if badge:
         parts.append(pill(badge, CORAL, 24).move_to(c.get_corner(UR) + LEFT * 0.15 + DOWN * 0.1))
     return VGroup(*parts)

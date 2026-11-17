@@ -14,12 +14,13 @@ BLUE = "#3A86FF"
 WHITE = "#FFFFFF"
 SOFT = "#C9DCF2"
 GREY = "#5B6F8A"
+FONT = "Noto Sans"   # installed by the workflow (fonts-noto-core)
 DECOR = "#D5E3F5"
 
 
 
 def txt(s, size=24, color=NAVY, bold=False, maxw=None):
-    m = Text(s, font_size=size, color=color, weight=BOLD if bold else NORMAL)
+    m = Text(s, font_size=size, color=color, weight=BOLD if bold else NORMAL, font=FONT)
     if maxw and m.width > maxw:
         m.scale_to_fit_width(maxw)
     return m
