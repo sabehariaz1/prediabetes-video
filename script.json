@@ -1,0 +1,10 @@
+[
+  {"id": "hook", "narration": "If you have a risk score of 5 or higher on the prediabetes risk calculator, you are at high risk of prediabetes. Let's walk through what that means, and what you can do about it."},
+  {"id": "what", "narration": "Prediabetes means your blood sugar is higher than normal, but not yet high enough to be called type 2 diabetes. Think of it as a warning light on your car's dashboard. It's the moment when you can still act."},
+  {"id": "silent", "narration": "Here's the catch. Prediabetes usually has no symptoms, so most people who have it don't know. That's why a simple screening matters."},
+  {"id": "tests", "narration": "Doctors use three blood tests. Fasting glucose: below 100 milligrams per decilitre is normal, 100 to 125 is prediabetes, and 126 or higher is diabetes. A1C: below 5.7 percent is normal, 5.7 to 6.4 is prediabetes, and 6.5 or higher is diabetes. And the two-hour glucose tolerance test: below 140 is normal, 140 to 199 is prediabetes, and 200 or higher is diabetes."},
+  {"id": "calc", "narration": "The calculator turns six simple questions about common risk factors into one score. A score of 5 or higher means several of those risk factors are present."},
+  {"id": "dpp", "narration": "Now, the good news. In the large Diabetes Prevention Program trial, adults with prediabetes who lost about seven percent of their body weight and kept active for 150 minutes a week cut their risk of developing type 2 diabetes by fifty-eight percent."},
+  {"id": "steps", "narration": "So start small. Walk briskly for 150 minutes a week. Choose vegetables, whole grains and lean protein over sugary drinks and sweets. Aim for seven to nine hours of sleep. And book a blood sugar test with your doctor."},
+  {"id": "outro", "narration": "This video is for education, not diagnosis. If your score is 5 or higher, talk to your doctor about a blood test. Catching prediabetes early can change the story."}
+]

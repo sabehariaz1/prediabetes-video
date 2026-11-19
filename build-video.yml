@@ -1,0 +1,45 @@
+name: Build explainer video
+
+on:
+  workflow_dispatch:            # run manually: Actions tab > Build explainer video > Run workflow
+  push:
+    paths:
+      - "video-src/**"
+      - ".github/workflows/build-video.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg python3-pip python3-numpy python3-pil fonts-open-sans fonts-dejavu-core
+          fc-cache -f
+
+      - name: Install edge-tts (natural neural voice)
+        run: python3 -m pip install --break-system-packages edge-tts
+
+      - name: Build video
+        run: python3 video-src/build_video.py
+
+      - name: Upload as downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prediabetes-explainer
+          path: prediabetes-explainer.mp4
+
+      - name: Commit video to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prediabetes-explainer.mp4
+          git diff --cached --quiet || git commit -m "Update explainer video"
+          git pull --rebase
+          git push

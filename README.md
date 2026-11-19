@@ -1,23 +1,19 @@
-# Prediabetes Community Explainer Video (2 Minutes)
+# Prediabetes explainer video: GitHub build kit
 
-An educational, community-focused 1080p animated explainer video built with Remotion and rendered automatically via GitHub Actions.
+## Setup (5 minutes)
+1. Copy these into your repo root, keeping the folders:
+   - `.github/workflows/build-video.yml`
+   - `video-src/` (build_video.py, script.json, voiceover/)
+2. On GitHub: **Settings > Actions > General > Workflow permissions > Read and write permissions** > Save.
+3. **Actions tab > "Build explainer video" > Run workflow.** It takes about 8-15 minutes.
+4. The finished `prediabetes-explainer.mp4` is committed to your repo root (and attached as a downloadable artifact). Your GitHub Pages site picks it up automatically.
+5. Open `page-snippet.html`, paste the `<video>` tag and the ranges/references section into your `index.html`.
 
-## Folder Structure
-- `src/index.ts` — Remotion entry point
-- `src/Root.tsx` — Video composition registration (1920x1080, 30fps, 3,600 frames = 2:00)
-- `src/theme.ts` — Shared color palette, typography, and timing constants
-- `src/components/SlideShell.tsx` — Reusable slide wrapper, background watermarks, and bottom caption bar
-- `src/components/Icons.tsx` — Reusable vector medical illustrations (person silhouette, blood drop, glucose meter, sugar cup, heart)
-- `src/scenes/Scene1Hook.tsx` — Global prevalence & silent symptoms (0:00 – 0:16)
-- `src/scenes/Scene2WhatIsIt.tsx` — Animated A1C semicircular gauge (0:16 – 0:32)
-- `src/scenes/Scene3InsideBody.tsx` — Healthy insulin key vs. insulin resistance (0:32 – 0:48)
-- `src/scenes/Scene4RiskFactors.tsx` — Combined 3-column risk factors overview (0:48 – 1:10)
-- `src/scenes/Scene5HowToFindOut.tsx` — 3 diagnostic tests with Normal & Prediabetes ranges (1:10 – 1:30)
-- `src/scenes/Scene6GoodNews.tsx` — 58% risk reduction & lifestyle pillars (1:30 – 1:45)
-- `src/scenes/Scene7Closing.tsx` — Action steps, community awareness purpose & ADA/CDC references (1:45 – 2:00)
-- `.github/workflows/render-video.yml` — Automated GitHub Actions MP4 renderer
+## Customising
+- **Words:** edit `video-src/script.json`. The first sentence starts with "If you have a risk score of 5 or higher...". Scene timing adjusts to the voice automatically.
+- **Screen text / ranges:** edit `TESTS` and `REFS` in `video-src/build_video.py`.
+- **Voice:** set env `TTS_VOICE` in the workflow (e.g. `en-GB-SoniaNeural`, `en-US-AndrewNeural`). If the voice annoys you, the most natural option is your own: record one file per scene and save as `video-src/voiceover/hook.mp3`, `what.mp3`, `silent.mp3`, `tests.mp3`, `calc.mp3`, `dpp.mp3`, `steps.mp3`, `outro.mp3`. Any file present replaces the generated voice.
+- **Music:** original, royalty-free, generated in code (soft C-G-Am-F piano-pluck and pad, ducked under the voice).
 
-## How to Render on GitHub
-1. Upload all files and folders (including `src/` and `.github/`) to your GitHub repository.
-2. Open the **Actions** tab and wait for **Render 2-Minute Prediabetes Explainer** to complete.
-3. Download **`prediabetes-explainer-2min`** under **Artifacts**.
+## Local test
+`pip install pillow numpy edge-tts` (plus ffmpeg), then `PREVIEW=1 python video-src/build_video.py` for a fast low-res render.
